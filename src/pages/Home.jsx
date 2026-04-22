@@ -24,25 +24,23 @@ const Home = () => {
   useEffect(() => {
     fetchHomeData()
   }, [])
+const fetchHomeData = async () => {
+  try {
+    const [featuredRes, bestSellingRes, categoriesRes] = await Promise.all([
+      apiClient.get('/products/featured'),
+      apiClient.get('/products/best-selling'),
+      apiClient.get('/categories')
+    ])
 
-  const fetchHomeData = async () => {
-    try {
-      const [featuredRes, bestSellingRes, categoriesRes] = await Promise.all([
-        apiClient.get('/products/featured'),
-        apiClient.get('/products/best-selling'),
-        apiClient.get('/categories')
-      ])
-
-      setFeaturedProducts(featuredRes.data)
-      setBestSellingProducts(bestSellingRes.data)
-      setCategories(categoriesRes.data)
-    } catch (error) {
-      console.error('Failed to fetch home data:', error)
-    } finally {
-      setLoading(false)
-    }
+    setFeaturedProducts(featuredRes.data.data || [])
+    setBestSellingProducts(bestSellingRes.data.data || [])
+    setCategories(categoriesRes.data.data || [])   // 🔥 FIX HERE
+  } catch (error) {
+    console.error('Failed to fetch home data:', error)
+  } finally {
+    setLoading(false)
   }
-
+}
   const ProductCard = ({ product }) => (
     <Card 
       sx={{ 
