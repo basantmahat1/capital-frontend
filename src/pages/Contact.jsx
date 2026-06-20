@@ -1,180 +1,94 @@
 import { useState } from 'react'
-import { Container, Typography, Box, Grid, Card, CardContent, TextField, Button, Paper } from '@mui/material'
-import { useTranslation } from 'react-i18next'
-import { LocationOn, Phone, Email, AccessTime } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
+import { Container, Typography, Box, Grid, TextField, Button, Paper, Stack, IconButton, Link as MuiLink } from '@mui/material'
+import { Phone, WhatsApp, Email, LocationOn, AccessTime } from '@mui/icons-material'
+import '../styles/Landing.css'
 
 const Contact = () => {
-  const { t } = useTranslation()
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  })
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Handle form submission here
     console.log('Form submitted:', formData)
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    })
+    setFormData({ name: '', email: '', subject: '', message: '' })
   }
 
-  const contactInfo = [
-    {
-      icon: <LocationOn sx={{ fontSize: 30, color: '#F1585E' }} />,
-      title: 'Address',
-      details: ['Capital IT Solution', 'Kathmandu, Nepal']
-    },
-    {
-      icon: <Phone sx={{ fontSize: 30, color: '#F1585E' }} />,
-      title: 'Phone',
-      details: ['+977-XXXXXXXXXX', '+977-XXXXXXXXXX']
-    },
-    {
-      icon: <Email sx={{ fontSize: 30, color: '#F1585E' }} />,
-      title: 'Email',
-      details: ['info@capitalitsolution.com', 'support@capitalitsolution.com']
-    },
-    {
-      icon: <AccessTime sx={{ fontSize: 30, color: '#F1585E' }} />,
-      title: 'Business Hours',
-      details: ['Mon - Fri: 9:00 AM - 6:00 PM', 'Sat: 9:00 AM - 2:00 PM']
-    }
-  ]
-
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Box sx={{ textAlign: 'center', mb: 6 }}>
-        <Typography variant="h2" component="h1" gutterBottom sx={{ color: '#1e293b', fontWeight: 800 }}>
-          Contact Us
-        </Typography>
-        <Typography variant="h5" sx={{ color: '#64748b', maxWidth: 600, mx: 'auto' }}>
-          Get in touch with us for any inquiries or support
-        </Typography>
-      </Box>
-
-      <Grid container spacing={6}>
-        {/* Contact Information */}
-        <Grid item xs={12} md={6}>
-          <Typography variant="h4" gutterBottom sx={{ color: '#1e293b', fontWeight: 700, mb: 4 }}>
-            Get In Touch
+    <Box sx={{ bgcolor: '#FAFBFA', py: 10 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <Typography variant="overline" sx={{ color: '#F0585E', fontWeight: 800, letterSpacing: '0.15em' }}>
+            GET IN TOUCH
           </Typography>
+          <Typography variant="h2" sx={{ fontWeight: 800, color: '#0F1B2D', mb: 2 }}>
+            Let's Talk Technology
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#515457', fontSize: '1.2rem', maxWidth: 600, mx: 'auto' }}>
+            Have a question or need a repair? Our team is ready to help you with expert IT solutions.
+          </Typography>
+        </Box>
 
-          <Grid container spacing={3}>
-            {contactInfo.map((info, index) => (
-              <Grid item xs={12} sm={6} key={index}>
-                <Card sx={{ height: '100%', borderRadius: 3, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                  <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                    <Box sx={{ mb: 2 }}>
-                      {info.icon}
-                    </Box>
-                    <Typography variant="h6" gutterBottom sx={{ color: '#1e293b', fontWeight: 600 }}>
-                      {info.title}
-                    </Typography>
-                    {info.details.map((detail, idx) => (
-                      <Typography key={idx} variant="body2" sx={{ color: '#64748b', mb: 0.5 }}>
-                        {detail}
-                      </Typography>
-                    ))}
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
+        <Grid container spacing={8}>
+          {/* Quick Action Buttons */}
+          <Grid item xs={12} md={5}>
+            <Paper sx={{ p: 4, borderRadius: 4, mb: 4, bgcolor: '#0F1B2D', color: 'white' }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>Need immediate help?</Typography>
+              <Stack spacing={2}>
+                <Button 
+                  startIcon={<Phone />} 
+                  variant="contained" 
+                  size="large" 
+                  href="tel:+977XXXXXXXXXX"
+                  sx={{ bgcolor: '#F0585E', '&:hover': { bgcolor: '#E0484E' }, py: 1.5, borderRadius: 2, fontWeight: 700 }}
+                >
+                  Call Now
+                </Button>
+                <Button 
+                  startIcon={<WhatsApp />} 
+                  variant="outlined" 
+                  size="large" 
+                  href="https://wa.me/977XXXXXXXXXX"
+                  sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)', py: 1.5, borderRadius: 2, fontWeight: 700, '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' } }}
+                >
+                  WhatsApp Us
+                </Button>
+              </Stack>
+            </Paper>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <LocationOn sx={{ color: '#F0585E' }} />
+                <Typography variant="body1" sx={{ color: '#515457' }}>Butwal Maitri Path, Rupandehi, Nepal</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Email sx={{ color: '#F0585E' }} />
+                <MuiLink href="mailto:info@techfixpro.com.np" sx={{ color: '#515457', textDecoration: 'none', '&:hover': { color: '#F0585E' } }}>info@techfixpro.com.np</MuiLink>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <AccessTime sx={{ color: '#F0585E' }} />
+                <Typography variant="body1" sx={{ color: '#515457' }}>Sun–Fri: 9AM – 7PM</Typography>
+              </Box>
+            </Box>
+          </Grid>
+
+          {/* Contact Form */}
+          <Grid item xs={12} md={7}>
+            <Paper sx={{ p: 5, borderRadius: 4, boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, color: '#0F1B2D', mb: 3 }}>Send us a Message</Typography>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <TextField fullWidth label="Name" variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                <TextField fullWidth label="Email" variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, email: e.target.value})} required />
+                <TextField fullWidth label="Subject" variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, subject: e.target.value})} />
+                <TextField fullWidth label="Message" multiline rows={4} variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, message: e.target.value})} required />
+                <Button type="submit" variant="contained" size="large" sx={{ bgcolor: '#F0585E', py: 1.5, borderRadius: 2, fontWeight: 700, '&:hover': { bgcolor: '#E0484E' } }}>
+                  Send Message
+                </Button>
+              </form>
+            </Paper>
           </Grid>
         </Grid>
-
-        {/* Contact Form */}
-        <Grid item xs={12} md={6}>
-          <Typography variant="h4" gutterBottom sx={{ color: '#1e293b', fontWeight: 700, mb: 4 }}>
-            Send us a Message
-          </Typography>
-
-          <Paper sx={{ p: 4, borderRadius: 3 }}>
-            <Box component="form" onSubmit={handleSubmit}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Message"
-                    name="message"
-                    multiline
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    fullWidth
-                    sx={{
-                      mt: 2,
-                      py: 1.5,
-                      fontSize: '1.1rem',
-                      fontWeight: 600,
-                      borderRadius: 2
-                    }}
-                  >
-                    Send Message
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Box>
   )
 }
 

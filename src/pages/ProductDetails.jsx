@@ -1,33 +1,26 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import apiClient from '../api/apiClient'
+import apiClient from '../services/apiClient'
 import {
   Container,
   Typography,
   Grid,
-  Card,
-  CardContent,
   CardMedia,
   Button,
   Box,
   Chip,
   Divider,
   TextField,
-  // Rating,
-  // Avatar,
   Skeleton,
   Alert,
   IconButton,
-  Paper,
-  Badge
+  Paper
 } from '@mui/material'
-import { Add, Remove, ShoppingCart, Favorite, FavoriteBorder, CloudUpload, Close, ArrowBack } from '@mui/icons-material'
+import { Add, Remove, ShoppingCart, Favorite, FavoriteBorder, ArrowBack } from '@mui/icons-material'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 
 const ProductDetails = () => {
-  const { t } = useTranslation()
   const { id } = useParams()
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -39,8 +32,6 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(0)
   const [alert, setAlert] = useState(null)
   const [inWishlist, setInWishlist] = useState(false)
-  const [uploadedImages, setUploadedImages] = useState([])
-  const [uploading, setUploading] = useState(false)
 
   const isInCart = cartItems.some(item => item.product_id === parseInt(id))
   const cartItem = cartItems.find(item => item.product_id === parseInt(id))
@@ -133,77 +124,11 @@ const ProductDetails = () => {
     }
   }
 
-  // const handleSubmitReview = async () => {
-  //   if (!user) {
-  //     navigate('/login')
-  //     return
-  //   }
-
-  //   try {
-  //     setSubmittingReview(true)
-  //     await apiClient.post(`/products/${id}/reviews`, {
-  //       rating: reviewRating,
-  //       review_text: reviewText
-  //     })
-
-  //     setReviewText('')
-  //     setReviewRating(5)
-  //     setAlert({ type: 'success', message: 'Review submitted successfully' })
-  //     fetchProduct() // Refresh product data to show new review
-  //   } catch (error) {
-  //     setAlert({ type: 'error', message: error.response?.data?.message || 'Failed to submit review' })
-  //   } finally {
-  //     setSubmittingReview(false)
-  //   }
-  // }
-
   const updateQuantity = (change) => {
     const newQuantity = quantity + change
     if (newQuantity >= 1 && newQuantity <= (product?.stock_quantity || 1)) {
       setQuantity(newQuantity)
     }
-  }
-
-  const handleImageUpload = async (event) => {
-    const files = Array.from(event.target.files || [])
-    const maxImages = 5
-    const remaining = maxImages - uploadedImages.length
-    
-    if (files.length > remaining) {
-      setAlert({ type: 'warning', message: `Only ${remaining} more images allowed (max 5)` })
-      return
-    }
-
-    try {
-      setUploading(true)
-      const newImages = []
-      
-      for (const file of files) {
-        const formData = new FormData()
-        formData.append('file', file)
-        formData.append('folder', 'products')
-        
-        const response = await apiClient.post('/cloudinary/upload', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        
-        if (response.data.url) {
-          newImages.push(response.data.url)
-        }
-      }
-      
-      setUploadedImages([...uploadedImages, ...newImages])
-      setAlert({ type: 'success', message: `${newImages.length} image(s) uploaded successfully` })
-    } catch (error) {
-      console.error('Image upload failed:', error)
-      setAlert({ type: 'error', message: 'Failed to upload images' })
-    } finally {
-      setUploading(false)
-    }
-  }
-
-  const removeUploadedImage = (index) => {
-    setUploadedImages(uploadedImages.filter((_, i) => i !== index))
   }
 
   if (loading) {
@@ -357,7 +282,7 @@ const ProductDetails = () => {
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                 <Chip
-                  label={product.stock_quantity > 0 ? '✓ In Stock' : '✗ Out of Stock'}
+                  label={product.stock_quantity > 0 ? 'In Stock' : 'Out of Stock'}
                   color={product.stock_quantity > 0 ? 'success' : 'error'}
                   sx={{ fontWeight: 600 }}
                   variant="filled"
@@ -461,7 +386,7 @@ const ProductDetails = () => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={8}>
           <Typography variant="h5" component="h2" sx={{ fontWeight: 700, mb: 2.5, color: '#1e293b' }}>
-            📝 {t('description')}
+            📝 Description
           </Typography>
           <Paper elevation={0} sx={{ p: 3, backgroundColor: '#f8fafc', borderRadius: 2, mb: 4 }}>
             <Typography variant="body1" sx={{ lineHeight: 1.8, color: '#475569' }}>
@@ -473,7 +398,7 @@ const ProductDetails = () => {
           {product.specifications && (
             <>
               <Typography variant="h5" component="h2" sx={{ fontWeight: 700, mb: 2.5, color: '#1e293b' }}>
-                ⚙️ {t('specifications')}
+                ⚙️ Specifications
               </Typography>
               <Box sx={{ mb: 3 }}>
                 {Object.entries(product.specifications).map(([key, value]) => (
@@ -535,80 +460,6 @@ const ProductDetails = () => {
           </Paper>
         </Grid>
       </Grid>
-
-      <Divider sx={{ my: 4 }} />
-
-      {/* Reviews Section - COMMENTED OUT */}
-      {/* 
-      <Typography variant="h5" component="h2" gutterBottom>
-        {t('reviews')} ({product.reviews?.length || 0})
-      </Typography>
-
-      {/* Write Review */}
-      {/*
-      {user && (
-        <Card sx={{ mb: 3, p: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            {t('write_review')}
-          </Typography>
-          <Box sx={{ mb: 2 }}>
-            <Typography component="legend">{t('rating')}</Typography>
-            <Rating
-              value={reviewRating}
-              onChange={(event, newValue) => {
-                setReviewRating(newValue)
-              }}
-            />
-          </Box>
-          <TextField
-            fullWidth
-            multiline
-            rows={3}
-            label={t('review_text')}
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <Button
-            variant="contained"
-            onClick={handleSubmitReview}
-            disabled={submittingReview}
-          >
-            {submittingReview ? t('submitting') : t('submit_review')}
-          </Button>
-        </Card>
-      )}
-
-      {/* Display Reviews */}
-      {/*
-      {product.reviews && product.reviews.length > 0 ? (
-        <Grid container spacing={2}>
-          {product.reviews.map((review) => (
-            <Grid item xs={12} key={review.id}>
-              <Card>
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                    <Avatar sx={{ mr: 2 }}>{review.user_name.charAt(0)}</Avatar>
-                    <Box>
-                      <Typography variant="subtitle1">{review.user_name}</Typography>
-                      <Rating value={review.rating} readOnly size="small" />
-                    </Box>
-                    <Typography variant="body2" color="text.secondary" sx={{ ml: 'auto' }}>
-                      {new Date(review.created_at).toLocaleDateString()}
-                    </Typography>
-                  </Box>
-                  <Typography variant="body1">{review.review_text}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="body2" color="text.secondary">
-          {t('no_reviews_yet')}
-        </Typography>
-      )}
-      */}
     </Container>
   )
 }

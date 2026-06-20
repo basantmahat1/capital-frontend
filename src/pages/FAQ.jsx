@@ -1,11 +1,8 @@
 import { Container, Typography, Box, Accordion, AccordionSummary, AccordionDetails, Breadcrumbs } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { ExpandMore, HelpOutline } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
 
 const FAQ = () => {
-  const { t } = useTranslation()
-
   const faqs = [
     {
       question: "What services does Capital IT Solution provide?",

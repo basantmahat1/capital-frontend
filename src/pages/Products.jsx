@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import apiClient from '../api/apiClient'
+import apiClient from '../services/apiClient'
 import {
   Container,
   Typography,
@@ -26,7 +25,6 @@ import {
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material'
 
 const Products = () => {
-  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [products, setProducts] = useState([])
@@ -177,31 +175,31 @@ const Products = () => {
             }
           }}
         >
-          {t('view')}
+          View
         </Button>
       </CardContent>
     </Card>
   )
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Box sx={{ textAlign: 'center', mb: 6 }}>
-        <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 800, color: '#1a202c' }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 3, md: 6 } }}>
+      <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 } }}>
+        <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 800, color: '#1a202c', fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
           Explore Our Catalog
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto', fontSize: { xs: '0.95rem', md: '1.1rem' } }}>
           Discover the best deals on high-quality electronics, components, and solutions for your business.
         </Typography>
       </Box>
 
       {/* Search and Filter Section */}
-      <Box sx={{ mb: 6 }}>
-        <Grid container spacing={2} sx={{ maxWidth: 900, mx: 'auto', alignItems: 'center' }}>
+      <Box sx={{ mb: { xs: 4, md: 6 } }}>
+        <Grid container spacing={{ xs: 2, md: 2 }} sx={{ maxWidth: 900, mx: 'auto', alignItems: 'center' }}>
           <Grid item xs={12} md={7}>
             <Paper 
               elevation={0} 
               sx={{ 
-                p: 0.5, 
+                p: { xs: 0.75, md: 0.5 }, 
                 borderRadius: '12px', 
                 border: '1px solid #e2e8f0',
                 display: 'flex',
@@ -218,19 +216,19 @@ const Products = () => {
                 InputProps={{
                   disableUnderline: true,
                   startAdornment: (
-                    <InputAdornment position="start" sx={{ pl: 2 }}>
-                      <SearchIcon sx={{ color: '#94a3b8' }} />
+                    <InputAdornment position="start" sx={{ pl: { xs: 1, md: 2 } }}>
+                      <SearchIcon sx={{ color: '#94a3b8', fontSize: { xs: '1.25rem', md: '1.5rem' } }} />
                     </InputAdornment>
                   ),
                   endAdornment: searchTerm && (
                     
-                    <InputAdornment position="end" sx={{ pr: 1 }}>
+                    <InputAdornment position="end" sx={{ pr: { xs: 0.5, md: 1 } }}>
                       <IconButton size="small" onClick={() => setSearchTerm('')}>
                         <ClearIcon fontSize="small" />
                       </IconButton>
                     </InputAdornment>
                   ),
-                  sx: { py: 1, px: 1, fontSize: '0.95rem' }
+                  sx: { py: { xs: 1, md: 1 }, px: { xs: 0.5, md: 1 }, fontSize: { xs: '0.9rem', md: '0.95rem' } }
                 }}
               />
             </Paper>
@@ -278,7 +276,7 @@ const Products = () => {
 
       {/* Products Grid */}
       {loading ? (
-        <Grid container spacing={3}>
+        <Grid container spacing={{ xs: 1.5, md: 3 }}>
           {[...Array(8)].map((_, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
               <Skeleton variant="rectangular" height={250} sx={{ borderRadius: '16px' }} />
@@ -288,26 +286,26 @@ const Products = () => {
           ))}
         </Grid>
       ) : products.length === 0 ? (
-        <Box sx={{ textAlign: 'center', py: 10 }}>
+        <Box sx={{ textAlign: 'center', py: { xs: 6, md: 10 } }}>
           <Box sx={{ mb: 2 }}>
-            <SearchIcon sx={{ fontSize: 64, color: '#cbd5e1' }} />
+            <SearchIcon sx={{ fontSize: { xs: 48, md: 64 }, color: '#cbd5e1' }} />
           </Box>
-          <Typography variant="h5" sx={{ fontWeight: 700, color: '#475569', mb: 1 }}>
+          <Typography variant="h5" sx={{ fontWeight: 700, color: '#475569', mb: 1, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
             No products found
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
             Try adjusting your search terms or filters.
           </Typography>
           <Button 
             onClick={() => { setSearchTerm(''); setSelectedCategory(''); }} 
-            sx={{ mt: 3, textTransform: 'none', fontWeight: 700 }}
+            sx={{ mt: 3, textTransform: 'none', fontWeight: 700, fontSize: { xs: '0.9rem', md: '1rem' } }}
           >
             Clear All Filters
           </Button>
         </Box>
       ) : (
         <>
-          <Grid container spacing={3}>
+          <Grid container spacing={{ xs: 2, md: 3 }}>
             {products.map((product) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
                 <ProductCard product={product} />
@@ -317,7 +315,7 @@ const Products = () => {
 
           {/* Pagination */}
           {pagination.pages > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 6, md: 8 } }}>
               <Pagination
                 count={pagination.pages}
                 page={page}

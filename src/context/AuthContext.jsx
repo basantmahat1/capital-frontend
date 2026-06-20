@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { authApi } from '../api/apiSlice'
+import { authApi } from '../services/apiSlice'
 
 const AuthContext = createContext()
 
@@ -14,6 +14,17 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [authModalMode, setAuthModalMode] = useState('login')
+
+  const openAuthModal = (mode = 'login') => {
+    setAuthModalMode(mode)
+    setIsAuthModalOpen(true)
+  }
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false)
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -42,11 +53,14 @@ export const AuthProvider = ({ children }) => {
       const response = await authApi.login(email, password)
       localStorage.setItem('token', response.token)
       setUser(response.user)
+      closeAuthModal() // Close modal on success
       return { success: true }
     } catch (error) {
+      console.error('Login error details:', error.response?.data)
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed'
+        message: error.response?.data?.message || 'Login failed',
+        details: error.response?.data?.details // Pass details through
       }
     }
   }
@@ -56,11 +70,14 @@ export const AuthProvider = ({ children }) => {
       const response = await authApi.register(userData)
       localStorage.setItem('token', response.token)
       setUser(response.user)
+      closeAuthModal() // Close modal on success
       return { success: true }
     } catch (error) {
+      console.error('Register error details:', error.response?.data)
       return {
         success: false,
-        message: error.response?.data?.message || 'Registration failed'
+        message: error.response?.data?.message || 'Registration failed',
+        details: error.response?.data?.details // Pass details through
       }
     }
   }
@@ -90,7 +107,11 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    updateProfile
+    updateProfile,
+    isAuthModalOpen,
+    authModalMode,
+    openAuthModal,
+    closeAuthModal
   }
 
   return (

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import apiClient from '../../api/apiClient'
+import apiClient from '../../services/apiClient'
+import { SERVICES_LIST } from '../../constants/services'
 import {
   Typography,
   Grid,
@@ -33,7 +34,7 @@ import {
   Notifications as NotificationsIcon
 } from '@mui/icons-material'
 import { useAuth } from '@/context/AuthContext'
-import AdminLayout from '../../components/AdminLayout'
+import AdminLayout from '../../layouts/AdminLayout'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
@@ -411,12 +412,17 @@ const Dashboard = () => {
               <CardContent>
                 <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#64748b', mb: 2 }}>SERVICE PERFORMANCE</Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                  {serviceStats.slice(0, 5).map((service, i) => (
-                    <Box key={i} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Typography variant="body2" sx={{ fontWeight: 600 }}>{service.name}</Typography>
-                      <Chip label={`${service.request_count} req`} size="small" sx={{ fontWeight: 700, height: 20, fontSize: '0.65rem' }} />
-                    </Box>
-                  ))}
+                  {serviceStats.slice(0, 5).map((service, i) => {
+                    const serviceDetail = SERVICES_LIST.find(s => s.id === service.service_id);
+                    return (
+                      <Box key={i} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                          {serviceDetail ? serviceDetail.name : `Service ID: ${service.service_id}`}
+                        </Typography>
+                        <Chip label={`${service.request_count} req`} size="small" sx={{ fontWeight: 700, height: 20, fontSize: '0.65rem' }} />
+                      </Box>
+                    );
+                  })}
                   {serviceStats.length === 0 && (
                     <Typography variant="body2" sx={{ color: '#94a3b8', textAlign: 'center' }}>No service data</Typography>
                   )}

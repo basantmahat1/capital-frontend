@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import apiClient from '../api/apiClient'
+import apiClient from '../services/apiClient'
 import {
   Container,
   Typography,
@@ -12,16 +11,14 @@ import {
   Button,
   Box,
   IconButton,
-  Alert,
-  Chip
+  Alert
 } from '@mui/material'
 import { Favorite, FavoriteBorder, ShoppingCart } from '@mui/icons-material'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 
 const Wishlist = () => {
-  const { t } = useTranslation()
-  const { user } = useAuth()
+  const { user, openAuthModal } = useAuth()
   const { addToCart } = useCart()
 
   const [wishlistItems, setWishlistItems] = useState([])
@@ -72,8 +69,8 @@ const Wishlist = () => {
         <Typography variant="h5" gutterBottom>
           Please login to view your wishlist
         </Typography>
-        <Button component={Link} to="/login" variant="contained">
-          {t('login')}
+        <Button onClick={() => openAuthModal('login')} variant="contained">
+          Login
         </Button>
       </Container>
     )
@@ -82,7 +79,7 @@ const Wishlist = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
-        {t('wishlist')}
+        Wishlist
       </Typography>
 
       {alert && (
@@ -97,13 +94,13 @@ const Wishlist = () => {
         <Box sx={{ textAlign: 'center', py: 8 }}>
           <FavoriteBorder sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
           <Typography variant="h6" gutterBottom>
-            {t('wishlist_empty')}
+            Your wishlist is empty
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            {t('wishlist_empty_message')}
+            Add some products to your wishlist to see them here
           </Typography>
           <Button component={Link} to="/products" variant="contained">
-            {t('start_shopping')}
+            Start Shopping
           </Button>
         </Box>
       ) : (
@@ -131,19 +128,6 @@ const Wishlist = () => {
                       </Typography>
                     )}
                   </Box>
-                  {/* Rating and review count - commented out
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                    <Chip
-                      label="rating with star"
-                      size="small"
-                      color="primary"
-                      variant="outlined"
-                    />
-                    <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                      review count reviews
-                    </Typography>
-                  </Box>
-                  */}
                   <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
                     <Button
                       component={Link}
@@ -152,7 +136,7 @@ const Wishlist = () => {
                       size="small"
                       sx={{ flex: 1 }}
                     >
-                      {t('view')}
+                      View
                     </Button>
                     <Button
                       onClick={() => handleAddToCart(item)}
@@ -161,7 +145,7 @@ const Wishlist = () => {
                       startIcon={<ShoppingCart />}
                       sx={{ flex: 1 }}
                     >
-                      {t('add_to_cart')}
+                      Add to Cart
                     </Button>
                     <IconButton
                       onClick={() => handleRemoveFromWishlist(item.product_id)}

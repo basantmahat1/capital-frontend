@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import apiClient from '../api/apiClient'
+import apiClient from '../services/apiClient'
+import { SERVICES_LIST } from '../constants/services'
 import {
   Container,
   Typography,
@@ -21,7 +21,6 @@ import {
 import { useAuth } from '../context/AuthContext'
 
 const ServiceBooking = () => {
-  const { t } = useTranslation()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -29,7 +28,7 @@ const ServiceBooking = () => {
   const serviceId = searchParams.get('service')
   const type = searchParams.get('type') || 'booking'
 
-  const [services, setServices] = useState([])
+  const [services] = useState(SERVICES_LIST)
   const [selectedService, setSelectedService] = useState(serviceId || '')
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -44,17 +43,8 @@ const ServiceBooking = () => {
   const [alert, setAlert] = useState(null)
 
   useEffect(() => {
-    fetchServices()
+    // No longer need fetchServices here
   }, [])
-
-  const fetchServices = async () => {
-    try {
-      const response = await apiClient.get('/services')
-      setServices(response.data)
-    } catch (error) {
-      console.error('Failed to fetch services:', error)
-    }
-  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -144,7 +134,7 @@ const ServiceBooking = () => {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom align="center">
-        {type === 'booking' ? t('service_booking') : t('inquiry_form')}
+        {type === 'booking' ? 'Service Booking' : 'Inquiry Form'}
       </Typography>
 
       {alert && (
@@ -160,15 +150,15 @@ const ServiceBooking = () => {
               {type === 'booking' && (
                 <Grid item xs={12}>
                   <FormControl fullWidth required>
-                    <InputLabel>{t('select_service')}</InputLabel>
+                    <InputLabel>Select Service</InputLabel>
                     <Select
                       value={selectedService}
                       onChange={handleServiceChange}
-                      label={t('select_service')}
+                      label="Select Service"
                     >
                       {services.map((service) => (
                         <MenuItem key={service.id} value={service.id}>
-                          {service.name} {service.price && `- Rs. ${service.price}`}
+                          {service.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -179,7 +169,7 @@ const ServiceBooking = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label={t('name')}
+                  label="Name"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
@@ -189,7 +179,7 @@ const ServiceBooking = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label={t('email')}
+                  label="Email"
                   name="email"
                   type="email"
                   value={formData.email}
@@ -200,7 +190,7 @@ const ServiceBooking = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label={t('phone')}
+                  label="Phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
@@ -210,7 +200,7 @@ const ServiceBooking = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label={t('preferred_date')}
+                  label="Preferred Date"
                   name="preferred_date"
                   type="date"
                   value={formData.preferred_date}
@@ -221,7 +211,7 @@ const ServiceBooking = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label={t('address')}
+                  label="Address"
                   name="address"
                   multiline
                   rows={2}
@@ -234,7 +224,7 @@ const ServiceBooking = () => {
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label={t('subject')}
+                    label="Subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleInputChange}
@@ -246,7 +236,7 @@ const ServiceBooking = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label={type === 'booking' ? t('problem_description') : t('message')}
+                  label={type === 'booking' ? 'Problem Description' : 'Message'}
                   name="problem_description"
                   multiline
                   rows={4}
@@ -265,7 +255,7 @@ const ServiceBooking = () => {
                   fullWidth
                   disabled={loading}
                 >
-                  {loading ? <CircularProgress size={24} /> : (type === 'booking' ? t('submit_request') : t('send_inquiry'))}
+                  {loading ? <CircularProgress size={24} /> : (type === 'booking' ? 'Submit Request' : 'Send Inquiry')}
                 </Button>
               </Grid>
             </Grid>

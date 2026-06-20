@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import apiClient from '../../api/apiClient'
+import apiClient from '../../services/apiClient'
 import {
   Typography,
   Table,
@@ -21,7 +21,7 @@ import {
   Email as EmailIcon,
   Phone as PhoneIcon
 } from '@mui/icons-material'
-import AdminLayout from '../../components/AdminLayout'
+import AdminLayout from '../../layouts/AdminLayout'
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([])

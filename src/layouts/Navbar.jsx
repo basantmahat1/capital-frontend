@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import {
   AppBar,
   Toolbar,
@@ -17,17 +16,13 @@ import {
   ShoppingCart,
   Favorite,
   Person,
-  Menu as MenuIcon,
-  Brightness4,
-  Brightness7,
-  Language
+  Menu as MenuIcon
 } from '@mui/icons-material'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 
-const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }) => {
-  const { t, i18n } = useTranslation()
-  const { user, logout } = useAuth()
+const Navbar = () => {
+  const { user, logout, openAuthModal } = useAuth()
   const { cartCount } = useCart()
   const navigate = useNavigate()
 
@@ -57,55 +52,48 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }) => {
   }
 
   const menuItems = [
-    { text: t('home'), path: '/' },
-    { text: t('products'), path: '/products' },
-    { text: t('services'), path: '/services' },
-    { text: t('about'), path: '/about' },
-    { text: t('contact'), path: '/contact' }
+    { text: 'Home', path: '/' },
+    { text: 'Products', path: '/products' },
+    { text: 'Services', path: '/services' },
+    { text: 'About', path: '/about' },
+    { text: 'Contact', path: '/contact' }
   ]
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" sx={{ backgroundColor: '#F0585E' }}>
       <Container maxWidth="lg">
-        <Toolbar>
-          <Typography variant="h6" component={Link} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'white' }}>
-            Capital IT Solution
-          </Typography>
+        <Toolbar sx={{ py: { xs: 1, md: 1 }, minHeight: { xs: '60px', md: '70px' } }}>
+          <Box component={Link} to="/" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img src="/logo.png" alt="Logo" style={{ height: '50px', borderRadius: '50%', border: '2px solid white' }} />
+            <Typography variant="h6" sx={{ ml: 2, fontWeight: 700, color: 'white', display: { xs: 'none', sm: 'block' } }}>
+              Capital I.T Solution
+            </Typography>
+          </Box>
 
           {/* Desktop Menu */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', '& .MuiButton-root': { color: 'white' }, '& .MuiIconButton-root': { color: 'white' } }}>
             {menuItems.map((item) => (
-              <Button key={item.path} color="inherit" component={Link} to={item.path}>
+              <Button key={item.path} component={Link} to={item.path}>
                 {item.text}
               </Button>
             ))}
 
-            {/* Language Toggle */}
-            <IconButton color="inherit" onClick={toggleLanguage}>
-              <Language />
-            </IconButton>
-
-            {/* Dark Mode Toggle */}
-            <IconButton color="inherit" onClick={toggleDarkMode}>
-              {darkMode ? <Brightness7 /> : <Brightness4 />}
-            </IconButton>
-
             {/* Cart */}
-            <IconButton color="inherit" component={Link} to="/cart">
+            <IconButton component={Link} to="/cart">
               <Badge badgeContent={cartCount} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>
 
             {/* Wishlist */}
-            <IconButton color="inherit" component={Link} to="/wishlist">
+            <IconButton component={Link} to="/wishlist">
               <Favorite />
             </IconButton>
 
             {/* User Menu */}
             {user ? (
               <>
-                <IconButton color="inherit" onClick={handleProfileMenuOpen}>
+                <IconButton onClick={handleProfileMenuOpen}>
                   <Person />
                 </IconButton>
                 <Menu
@@ -114,28 +102,28 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }) => {
                   onClose={handleProfileMenuClose}
                 >
                   <MenuItem component={Link} to="/profile" onClick={handleProfileMenuClose}>
-                    {t('profile')}
+                    Profile
                   </MenuItem>
                   <MenuItem component={Link} to="/orders" onClick={handleProfileMenuClose}>
-                    {t('my_orders')}
+                    My Orders
                   </MenuItem>
                   {user.role === 'admin' && (
                     <MenuItem component={Link} to="/admin" onClick={handleProfileMenuClose}>
-                      {t('admin_panel')}
+                      Admin Panel
                     </MenuItem>
                   )}
                   <MenuItem onClick={handleLogout}>
-                    {t('logout')}
+                    Logout
                   </MenuItem>
                 </Menu>
               </>
             ) : (
               <>
-                <Button color="inherit" component={Link} to="/login">
-                  {t('login')}
+                <Button onClick={() => openAuthModal('login')}>
+                  Login
                 </Button>
-                <Button color="inherit" component={Link} to="/register">
-                  {t('register')}
+                <Button onClick={() => openAuthModal('register')}>
+                  Register
                 </Button>
               </>
             )}
@@ -156,44 +144,36 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }) => {
                   {item.text}
                 </MenuItem>
               ))}
-              <MenuItem onClick={() => { toggleLanguage(); handleMobileMenuClose() }}>
-                <Language sx={{ mr: 1 }} />
-                {i18n.language === 'en' ? 'नेपाली' : 'English'}
-              </MenuItem>
-              <MenuItem onClick={() => { toggleDarkMode(); handleMobileMenuClose() }}>
-                {darkMode ? <Brightness7 sx={{ mr: 1 }} /> : <Brightness4 sx={{ mr: 1 }} />}
-                {darkMode ? t('light_mode') : t('dark_mode')}
-              </MenuItem>
               <MenuItem component={Link} to="/cart" onClick={handleMobileMenuClose}>
                 <Badge badgeContent={cartCount} color="secondary">
                   <ShoppingCart sx={{ mr: 1 }} />
                 </Badge>
-                {t('cart')}
+                Cart
               </MenuItem>
               <MenuItem component={Link} to="/wishlist" onClick={handleMobileMenuClose}>
                 <Favorite sx={{ mr: 1 }} />
-                {t('wishlist')}
+                Wishlist
               </MenuItem>
               {user && <MenuItem component={Link} to="/profile" onClick={handleMobileMenuClose}>
                 <Person sx={{ mr: 1 }} />
-                {t('profile')}
+                Profile
               </MenuItem>}
               {user && <MenuItem component={Link} to="/orders" onClick={handleMobileMenuClose}>
-                {t('my_orders')}
+                My Orders
               </MenuItem>}
               {user && user.role === 'admin' && (
                 <MenuItem component={Link} to="/admin" onClick={handleMobileMenuClose}>
-                  {t('admin_panel')}
+                  Admin Panel
                 </MenuItem>
               )}
               {user && <MenuItem onClick={() => { handleLogout(); handleMobileMenuClose() }}>
-                {t('logout')}
+                Logout
               </MenuItem>}
-              {!user && <MenuItem component={Link} to="/login" onClick={handleMobileMenuClose}>
-                {t('login')}
+              {!user && <MenuItem onClick={() => { openAuthModal('login'); handleMobileMenuClose() }}>
+                Login
               </MenuItem>}
-              {!user && <MenuItem component={Link} to="/register" onClick={handleMobileMenuClose}>
-                {t('register')}
+              {!user && <MenuItem onClick={() => { openAuthModal('register'); handleMobileMenuClose() }}>
+                Register
               </MenuItem>}
             </Menu>
           </Box>

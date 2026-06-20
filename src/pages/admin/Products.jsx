@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import apiClient from '../../api/apiClient'
+import apiClient from '../../services/apiClient'
 import { useAuth } from '../../context/AuthContext'
 import {
   Typography,
@@ -49,7 +49,7 @@ import {
   Close,
   Clear as ClearIcon
 } from '@mui/icons-material'
-import AdminLayout from '../../components/AdminLayout'
+import AdminLayout from '../../layouts/AdminLayout'
 
 const AdminProducts = () => {
   const { t } = useTranslation()

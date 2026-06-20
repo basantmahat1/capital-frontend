@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import apiClient from '../api/apiClient'
+import apiClient from '../services/apiClient'
 import {
   Container,
   Typography,
@@ -44,7 +43,6 @@ import {
 import { useAuth } from '../context/AuthContext'
 
 const Orders = () => {
-  const { t } = useTranslation()
   const { user } = useAuth()
   const location = useLocation()
 

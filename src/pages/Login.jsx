@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import {
   Container,
   Typography,
@@ -15,7 +14,6 @@ import {
 import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
-  const { t } = useTranslation()
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -48,11 +46,17 @@ const Login = () => {
     try {
       setLoading(true)
       const result = await login(formData.email, formData.password)
+      console.log('Login result received in UI:', result)
 
       if (result.success) {
         navigate(from, { replace: true })
       } else {
-        setAlert({ type: 'error', message: result.message })
+        // If there are detailed validation errors, show the first one
+        if (result.details && Array.isArray(result.details) && result.details.length > 0) {
+          setAlert({ type: 'error', message: result.details[0].msg })
+        } else {
+          setAlert({ type: 'error', message: result.message || 'Login failed' })
+        }
       }
     } catch (error) {
       setAlert({ type: 'error', message: 'Login failed. Please try again.' })
@@ -66,7 +70,7 @@ const Login = () => {
       <Card>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom align="center">
-            {t('login')}
+            Login
           </Typography>
 
           {alert && (
@@ -78,7 +82,7 @@ const Login = () => {
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
             <TextField
               fullWidth
-              label={t('email')}
+              label="Email"
               name="email"
               type="email"
               value={formData.email}
@@ -89,7 +93,7 @@ const Login = () => {
 
             <TextField
               fullWidth
-              label={t('password')}
+              label="Password"
               name="password"
               type="password"
               value={formData.password}
@@ -106,13 +110,13 @@ const Login = () => {
               disabled={loading}
               sx={{ mb: 2 }}
             >
-              {loading ? <CircularProgress size={24} /> : t('login')}
+              {loading ? <CircularProgress size={24} /> : 'Login'}
             </Button>
 
             <Typography variant="body2" align="center">
-              {t('dont_have_account')}{' '}
+              Don't have an account?{' '}
               <Link to="/register" style={{ textDecoration: 'none' }}>
-                {t('register')}
+                Register
               </Link>
             </Typography>
           </Box>

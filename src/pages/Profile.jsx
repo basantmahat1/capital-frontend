@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Container,
   Typography,
@@ -18,7 +17,6 @@ import {
 import { useAuth } from '../context/AuthContext'
 
 const Profile = () => {
-  const { t } = useTranslation()
   const { user, updateProfile } = useAuth()
 
   const [activeTab, setActiveTab] = useState(0)
@@ -141,7 +139,7 @@ const Profile = () => {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
-        {t('account_settings')}
+        Account Settings
       </Typography>
 
       {alert && (
@@ -154,8 +152,8 @@ const Profile = () => {
         <CardContent>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={activeTab} onChange={handleTabChange}>
-              <Tab label={t('profile')} />
-              <Tab label={t('change_password')} />
+              <Tab label="Profile" />
+              <Tab label="Change Password" />
             </Tabs>
           </Box>
 
@@ -163,7 +161,7 @@ const Profile = () => {
           {activeTab === 0 && (
             <Box component="form" onSubmit={handleProfileSubmit} sx={{ mt: 3 }}>
               <Typography variant="h6" gutterBottom>
-                {t('personal_information')}
+                Personal Information
               </Typography>
               <Divider sx={{ mb: 3 }} />
 
@@ -171,7 +169,7 @@ const Profile = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label={t('name')}
+                    label="Name"
                     name="name"
                     value={profileData.name}
                     onChange={handleProfileChange}
@@ -181,7 +179,7 @@ const Profile = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label={t('email')}
+                    label="Email"
                     name="email"
                     type="email"
                     value={profileData.email}
@@ -193,7 +191,7 @@ const Profile = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label={t('phone')}
+                    label="Phone"
                     name="phone"
                     value={profileData.phone}
                     onChange={handleProfileChange}
@@ -202,7 +200,7 @@ const Profile = () => {
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label={t('address')}
+                    label="Address"
                     name="address"
                     multiline
                     rows={3}
@@ -218,7 +216,7 @@ const Profile = () => {
                   variant="contained"
                   disabled={loading}
                 >
-                  {loading ? <CircularProgress size={24} /> : t('save_changes')}
+                  {loading ? <CircularProgress size={24} /> : 'Save Changes'}
                 </Button>
               </Box>
             </Box>
@@ -228,7 +226,7 @@ const Profile = () => {
           {activeTab === 1 && (
             <Box component="form" onSubmit={handlePasswordSubmit} sx={{ mt: 3 }}>
               <Typography variant="h6" gutterBottom>
-                {t('change_password')}
+                Change Password
               </Typography>
               <Divider sx={{ mb: 3 }} />
 
@@ -236,7 +234,7 @@ const Profile = () => {
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label={t('current_password')}
+                    label="Current Password"
                     name="current_password"
                     type="password"
                     value={passwordData.current_password}
@@ -247,7 +245,7 @@ const Profile = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label={t('new_password')}
+                    label="New Password"
                     name="new_password"
                     type="password"
                     value={passwordData.new_password}
@@ -258,7 +256,7 @@ const Profile = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label={t('confirm_new_password')}
+                    label="Confirm New Password"
                     name="confirm_password"
                     type="password"
                     value={passwordData.confirm_password}
@@ -274,7 +272,7 @@ const Profile = () => {
                   variant="contained"
                   disabled={loading}
                 >
-                  {loading ? <CircularProgress size={24} /> : t('change_password')}
+                  {loading ? <CircularProgress size={24} /> : 'Change Password'}
                 </Button>
               </Box>
             </Box>

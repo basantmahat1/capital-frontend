@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useMemo } from 'react'
 import { useAuth } from './AuthContext'
-import { cartApi } from '../api/apiSlice'
+import { cartApi } from '../services/apiSlice'
 
 const CartContext = createContext()
 

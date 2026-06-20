@@ -76,10 +76,10 @@ const Cart = () => {
             <ShoppingBagOutlined sx={{ fontSize: 50, color: '#94a3b8' }} />
           </Avatar>
           <Typography variant="h4" sx={{ fontWeight: 800, color: '#1e293b', mb: 1 }}>
-            {t('cart_empty')}
+            {t('cart empty')}
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 400, mx: 'auto', mb: 4 }}>
-            {t('cart_empty_message')}
+            {t('cart empty message')}
           </Typography>
           <Button 
             component={Link} 
@@ -98,7 +98,7 @@ const Cart = () => {
               boxShadow: '0 8px 16px rgba(241, 88, 94, 0.2)'
             }}
           >
-            {t('continue_shopping')}
+            {t('continue shopping')}
           </Button>
         </Box>
       </Container>

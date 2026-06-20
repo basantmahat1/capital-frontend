@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import apiClient from '../api/apiClient'
+import apiClient from '../services/apiClient'
 import {
   Container,
   Typography,
-  Grid,
   Card,
   CardContent,
   Button,
@@ -15,7 +13,6 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-  FormLabel,
   Divider,
   Alert,
   CircularProgress,
@@ -36,7 +33,6 @@ import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 
 const Checkout = () => {
-  const { t } = useTranslation()
   const { user } = useAuth()
   const { cartItems, getCartTotal, clearCart } = useCart()
   const navigate = useNavigate()
@@ -121,7 +117,7 @@ const Checkout = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
       <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 800, color: '#1a202c', mb: 4 }}>
-        {t('checkout')}
+        Checkout
       </Typography>
 
       {alert && (
@@ -143,7 +139,7 @@ const Checkout = () => {
                       <LocalShipping />
                     </Avatar>
                     <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                      {t('shipping_information')}
+                      Shipping Information
                     </Typography>
                   </Box>
                   <Divider sx={{ mb: 4 }} />
@@ -152,7 +148,7 @@ const Checkout = () => {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label={t('name')}
+                        label="Name"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
@@ -164,7 +160,7 @@ const Checkout = () => {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label={t('email')}
+                        label="Email"
                         name="email"
                         type="email"
                         value={formData.email}
@@ -177,7 +173,7 @@ const Checkout = () => {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label={t('phone')}
+                        label="Phone"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
@@ -189,7 +185,7 @@ const Checkout = () => {
                     <Grid item xs={12}>
                       <TextField
                         fullWidth
-                        label={t('address')}
+                        label="Address"
                         name="address"
                         multiline
                         rows={3}
@@ -213,7 +209,7 @@ const Checkout = () => {
                       <Payment />
                     </Avatar>
                     <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                      {t('payment_method')}
+                      Payment Method
                     </Typography>
                   </Box>
                   <Divider sx={{ mb: 3 }} />
@@ -244,7 +240,7 @@ const Checkout = () => {
                               <Box sx={{ ml: 1 }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                   <LocalAtm sx={{ mr: 1, color: '#475569' }} />
-                                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{t('cash_on_delivery')}</Typography>
+                                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Cash on Delivery</Typography>
                                 </Box>
                                 <Typography variant="body2" color="text.secondary">
                                   Pay with cash when your order is delivered to your doorstep.
@@ -334,7 +330,7 @@ const Checkout = () => {
                               <Box sx={{ ml: 1 }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                   <AccountBalance sx={{ mr: 1, color: '#475569' }} />
-                                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{t('bank_transfer')}</Typography>
+                                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Bank Transfer</Typography>
                                 </Box>
                                 <Typography variant="body2" color="text.secondary">
                                   Transfer directly to our bank account.
@@ -370,7 +366,7 @@ const Checkout = () => {
                     <Receipt fontSize="small" />
                   </Avatar>
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                    {t('order_summary')}
+                    Order Summary
                   </Typography>
                 </Box>
                 <Divider sx={{ mb: 3 }} />
@@ -397,16 +393,16 @@ const Checkout = () => {
 
                 <Stack spacing={1.5} sx={{ mb: 3 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body2" color="text.secondary">{t('subtotal')}</Typography>
+                    <Typography variant="body2" color="text.secondary">Subtotal</Typography>
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>रू {subtotal}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body2" color="text.secondary">{t('shipping')}</Typography>
+                    <Typography variant="body2" color="text.secondary">Shipping</Typography>
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>रू {shippingCost}</Typography>
                   </Box>
                   <Divider sx={{ my: 1 }} />
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="h6" sx={{ fontWeight: 800, color: '#1e293b' }}>{t('total')}</Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 800, color: '#1e293b' }}>Total</Typography>
                     <Typography variant="h6" sx={{ fontWeight: 800, color: '#F1585E' }}>रू {total}</Typography>
                   </Box>
                 </Stack>
@@ -429,7 +425,7 @@ const Checkout = () => {
                     boxShadow: '0 8px 16px rgba(241, 88, 94, 0.2)'
                   }}
                 >
-                  {loading ? <CircularProgress size={24} color="inherit" /> : t('place_order')}
+                  {loading ? <CircularProgress size={24} color="inherit" /> : 'Place Order'}
                 </Button>
                 
                 <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 2 }}>

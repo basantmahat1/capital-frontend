@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 340" width="100%" height="100%">
+  <defs>
+    <!-- 'i' र 'T' को मुख्य ठाडो भागको लागि Linear Gradient -->
+    <linearGradient id="mainBodyGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#021124" />
+      <stop offset="40%" stop-color="#092144" />
+      <stop offset="100%" stop-color="#006cff" />
+    </linearGradient>
+
+    <!-- 'T' को तेर्सो बार र राइट पिक्सेलको लागि तेर्सो Gradient -->
+    <linearGradient id="topBarGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#092852" />
+      <stop offset="60%" stop-color="#005dfa" />
+      <stop offset="100%" stop-color="#008cff" />
+    </linearGradient>
+
+    <!-- Swoosh को लागि स्मुथ र डाइनामिक ब्लू-टु-डार्क Gradient -->
+    <linearGradient id="swooshGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#005eff" />
+      <stop offset="25%" stop-color="#0077ff" />
+      <stop offset="65%" stop-color="#013175" />
+      <stop offset="100%" stop-color="#041226" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(10, 10)">
+    <!-- १. Letter 'i' को माथिको डट (Square) -->
+    <rect x="178" y="58" width="45" height="45" fill="url(#mainBodyGrad)" />
+
+    <!-- २. Letter 'i' को तलको स्टेम (Body) -->
+    <rect x="178" y="117" width="45" height="152" fill="url(#mainBodyGrad)" />
+
+    <!-- ३. Letter 'T' को तेर्सो क्रसबार (Exact slanted left-edge र right pixel layout) -->
+    <path d="M 239,155 L 263,117 L 420,117 L 406,155 Z" fill="url(#topBarGrad)" />
+
+    <!-- ४. Letter 'T' को ठाडो भाग -->
+    <path d="M 292,155 L 292,269 L 337,269 L 337,155 Z" fill="url(#mainBodyGrad)" />
+
+    <!-- ५. हुबहु डाइनामिक Swoosh Curve (जसले 'i' लाई अगाडिबाट र 'T' लाई तलबाट काट्छ) -->
+    <path d="M 300,162 
+             C 180,210 102,250 102,281 
+             C 102,317 185,317 285,280 
+             C 365,250 445,195 471,154 
+             C 432,204 353,249 285,273 
+             C 190,307 122,305 122,280 
+             C 122,255 195,215 300,173 Z" 
+          fill="url(#swooshGrad)" />
+
+    <!-- ६. दायाँतर्फ हावामा उडेको जस्तो देखिने Pixel Blocks (Exact Matrix) -->
+    <g fill="url(#topBarGrad)">
+      <!-- पहिलो लाइन (T को नजिक) -->
+      <rect x="412" y="139" width="10" height="10" />
+      <rect x="412" y="126" width="10" height="10" />
+      <!-- दोस्रो लाइन -->
+      <rect x="425" y="126" width="10" height="10" />
+      <rect x="425" y="113" width="10" height="10" />
+      <!-- तेस्रो लाइन -->
+      <rect x="438" y="113" width="10" height="10" />
+      <rect x="438" y="100" width="10" height="10" />
+      <!-- चौथो लाइन (सबैभन्दा माथि र दायाँ) -->
+      <rect x="451" y="100" width="10" height="10" />
+    </g>
+  </g>
+</svg>

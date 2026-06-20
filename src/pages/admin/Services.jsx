@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import apiClient from '../../api/apiClient'
+import apiClient from '../../services/apiClient'
 import { useAuth } from '../../context/AuthContext'
 import {
   Typography,
@@ -24,7 +24,7 @@ import {
   CheckCircle as CheckIcon,
   Cancel as CancelIcon
 } from '@mui/icons-material'
-import AdminLayout from '../../components/AdminLayout'
+import AdminLayout from '../../layouts/AdminLayout'
 
 const AdminServices = () => {
   const navigate = useNavigate()

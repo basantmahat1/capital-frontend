@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import apiClient from '../../api/apiClient'
+import apiClient from '../../services/apiClient'
 import { useAuth } from '../../context/AuthContext'
 import {
   Typography,
@@ -48,7 +48,7 @@ import {
   CheckCircle as CheckCircleIcon,
   Payment as PaymentIcon
 } from '@mui/icons-material'
-import AdminLayout from '../../components/AdminLayout'
+import AdminLayout from '../../layouts/AdminLayout'
 import * as XLSX from 'xlsx'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import {
   Container,
   Typography,
@@ -16,7 +15,6 @@ import {
 import { useAuth } from '../context/AuthContext'
 
 const Register = () => {
-  const { t } = useTranslation()
   const { register } = useAuth()
   const navigate = useNavigate()
 
@@ -67,11 +65,17 @@ const Register = () => {
         phone: formData.phone,
         address: formData.address
       })
+      console.log('Register result received in UI:', result)
 
       if (result.success) {
         navigate('/')
       } else {
-        setAlert({ type: 'error', message: result.message })
+        // If there are detailed validation errors, show the first one
+        if (result.details && Array.isArray(result.details) && result.details.length > 0) {
+          setAlert({ type: 'error', message: result.details[0].msg })
+        } else {
+          setAlert({ type: 'error', message: result.message || 'Registration failed' })
+        }
       }
     } catch (error) {
       setAlert({ type: 'error', message: 'Registration failed. Please try again.' })
@@ -85,7 +89,7 @@ const Register = () => {
       <Card>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom align="center">
-            {t('register')}
+            Register
           </Typography>
 
           {alert && (
@@ -99,7 +103,7 @@ const Register = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label={t('name')}
+                  label="Name"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
@@ -109,7 +113,7 @@ const Register = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label={t('email')}
+                  label="Email"
                   name="email"
                   type="email"
                   value={formData.email}
@@ -120,7 +124,7 @@ const Register = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label={t('password')}
+                  label="Password"
                   name="password"
                   type="password"
                   value={formData.password}
@@ -131,7 +135,7 @@ const Register = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label={t('confirm_password')}
+                  label="Confirm Password"
                   name="confirmPassword"
                   type="password"
                   value={formData.confirmPassword}
@@ -142,7 +146,7 @@ const Register = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label={t('phone')}
+                  label="Phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
@@ -151,7 +155,7 @@ const Register = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label={t('address')}
+                  label="Address"
                   name="address"
                   multiline
                   rows={3}
@@ -169,13 +173,13 @@ const Register = () => {
               disabled={loading}
               sx={{ mt: 3, mb: 2 }}
             >
-              {loading ? <CircularProgress size={24} /> : t('register')}
+              {loading ? <CircularProgress size={24} /> : 'Register'}
             </Button>
 
             <Typography variant="body2" align="center">
-              {t('already_have_account')}{' '}
+              Already have an account?{' '}
               <Link to="/login" style={{ textDecoration: 'none' }}>
-                {t('login')}
+                Login
               </Link>
             </Typography>
           </Box>
