@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import apiClient from '../../services/apiClient'
 import { useAuth } from '../../context/AuthContext'
@@ -54,7 +53,6 @@ import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 
 const AdminOrders = () => {
-  const { t } = useTranslation()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const { user, loading: authLoading } = useAuth()

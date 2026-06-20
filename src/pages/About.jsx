@@ -1,5 +1,4 @@
 import { Container, Typography, Box, Grid, Card, CardContent, Avatar, Button } from '@mui/material'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { 
   Lightbulb, 
@@ -11,7 +10,6 @@ import {
 import '../styles/Landing.css'
 
 const About = () => {
-  const { t } = useTranslation()
 
   const values = [
     { icon: <Verified />, title: 'Integrity', description: 'Transparency and honesty in every interaction.' },

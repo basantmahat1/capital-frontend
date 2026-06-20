@@ -2,10 +2,8 @@ import { Modal, Box, Typography, Button, TextField, IconButton, Fade, Divider, A
 import { Close } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useTranslation } from 'react-i18next';
 
 const AuthModal = () => {
-  const { t } = useTranslation();
   const { isAuthModalOpen, authModalMode, openAuthModal, closeAuthModal, login, register } = useAuth();
   const [formData, setFormData] = useState({ email: '', password: '', name: '' });
   const [alert, setAlert] = useState(null);
@@ -85,7 +83,7 @@ const AuthModal = () => {
         }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography variant="h4" sx={{ fontWeight: 800, color: '#0F1B2D' }}>
-              {t(authModalMode)}
+              {authModalMode === 'login' ? 'Login' : 'Register'}
             </Typography>
             <IconButton onClick={closeAuthModal} sx={{ color: '#0F1B2D', '&:hover': { transform: 'rotate(90deg)', transition: '0.3s' } }}>
               <Close />
@@ -100,24 +98,24 @@ const AuthModal = () => {
           
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {authModalMode === 'register' && (
-              <TextField fullWidth label={t('name')} value={formData.name} required variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+              <TextField fullWidth label="Name" value={formData.name} required variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, name: e.target.value})} />
             )}
-            <TextField fullWidth label={t('email')} type="email" value={formData.email} required variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, email: e.target.value})} />
-            <TextField fullWidth type="password" label={t('password')} value={formData.password} required variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, password: e.target.value})} />
+            <TextField fullWidth label="Email" type="email" value={formData.email} required variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+            <TextField fullWidth type="password" label="Password" value={formData.password} required variant="outlined" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} onChange={(e) => setFormData({...formData, password: e.target.value})} />
             
             <Button fullWidth variant="contained" type="submit" size="large" disabled={loading} sx={{ 
               py: 1.5, fontSize: '1rem', fontWeight: 700, borderRadius: 2, mt: 1,
               bgcolor: '#F0585E', '&:hover': { bgcolor: '#E0484E' }
             }}>
-              {loading ? 'Processing...' : t(authModalMode)}
+              {loading ? 'Processing...' : (authModalMode === 'login' ? 'Login' : 'Register')}
             </Button>
           </form>
 
-          <Divider sx={{ borderColor: 'rgba(215, 211, 206, 0.5)' }}>{t('or')}</Divider>
+          <Divider sx={{ borderColor: 'rgba(215, 211, 206, 0.5)' }}>Or</Divider>
 
           <Button onClick={() => openAuthModal(authModalMode === 'login' ? 'register' : 'login')} 
             variant="text" sx={{ color: '#0F1B2D', fontWeight: 600, '&:hover': { bgcolor: 'rgba(240, 88, 94, 0.05)' } }}>
-            {t(authModalMode === 'login' ? 'don_t_have_account' : 'Already have account')}
+            {authModalMode === 'login' ? "Don't have an account?" : 'Already have an account?'}
           </Button>
         </Box>
       </Fade>

@@ -1,9 +1,7 @@
 import { Container, Typography, Grid, Card, CardContent, CardMedia, Button, Box, Chip, Skeleton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
 const ProductCard = ({ product }) => {
-    const { t } = useTranslation();
     return (
         <Card 
           sx={{ 
@@ -84,7 +82,7 @@ const ProductCard = ({ product }) => {
                 }
               }}
             >
-              {t('view')}
+              View
             </Button>
           </CardContent>
         </Card>

@@ -1,10 +1,8 @@
 import { Box, Container, Typography, Grid, Link, Divider, IconButton, Stack } from '@mui/material'
 import { Facebook, Instagram, WhatsApp, YouTube } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
 import { Link as RouterLink } from 'react-router-dom'
 
 const Footer = () => {
-  const { t } = useTranslation()
 
   const socialLinks = [
     { icon: <Facebook />, url: '#' },
@@ -40,7 +38,7 @@ const Footer = () => {
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>Company</Typography>
             {['home', 'about', 'contact'].map((item) => (
               <Link key={item} component={RouterLink} to={item === 'home' ? '/' : `/${item}`} sx={{ color: '#A8A9A7', display: 'block', mb: 1, textDecoration: 'none', '&:hover': { color: '#F0585E' } }}>
-                {t(item)}
+                {item.charAt(0).toUpperCase() + item.slice(1)}
               </Link>
             ))}
           </Grid>
@@ -49,7 +47,7 @@ const Footer = () => {
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>Shop</Typography>
             {['products', 'cart', 'wishlist'].map((item) => (
               <Link key={item} component={RouterLink} to={`/${item}`} sx={{ color: '#A8A9A7', display: 'block', mb: 1, textDecoration: 'none', '&:hover': { color: '#F0585E' } }}>
-                {t(item)}
+                {item.charAt(0).toUpperCase() + item.slice(1)}
               </Link>
             ))}
           </Grid>

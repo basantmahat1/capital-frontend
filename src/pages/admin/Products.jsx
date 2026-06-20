@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import apiClient from '../../services/apiClient'
 import { useAuth } from '../../context/AuthContext'
@@ -52,7 +51,6 @@ import {
 import AdminLayout from '../../layouts/AdminLayout'
 
 const AdminProducts = () => {
-  const { t } = useTranslation()
   const navigate = useNavigate()
   const { user, loading: authLoading } = useAuth()
   const [products, setProducts] = useState([])

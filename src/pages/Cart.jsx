@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import {
   Container,
   Typography,
@@ -35,7 +34,6 @@ import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 
 const Cart = () => {
-  const { t } = useTranslation()
   const { user } = useAuth()
   const { cartItems, updateCartItem, removeFromCart, getCartTotal, loading } = useCart()
   const navigate = useNavigate()
@@ -76,10 +74,10 @@ const Cart = () => {
             <ShoppingBagOutlined sx={{ fontSize: 50, color: '#94a3b8' }} />
           </Avatar>
           <Typography variant="h4" sx={{ fontWeight: 800, color: '#1e293b', mb: 1 }}>
-            {t('cart empty')}
+            Your cart is empty
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 400, mx: 'auto', mb: 4 }}>
-            {t('cart empty message')}
+            Looks like you haven't added anything to your cart yet.
           </Typography>
           <Button 
             component={Link} 
@@ -98,7 +96,7 @@ const Cart = () => {
               boxShadow: '0 8px 16px rgba(241, 88, 94, 0.2)'
             }}
           >
-            {t('continue shopping')}
+            Continue Shopping
           </Button>
         </Box>
       </Container>
@@ -119,7 +117,7 @@ const Cart = () => {
       </Breadcrumbs>
 
       <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 800, color: '#1e293b', mb: 4 }}>
-        {t('shopping_cart')} <Typography component="span" variant="h4" sx={{ color: '#94a3b8', fontWeight: 400 }}>({cartItems.length} items)</Typography>
+        Shopping Cart <Typography component="span" variant="h4" sx={{ color: '#94a3b8', fontWeight: 400 }}>({cartItems.length} items)</Typography>
       </Typography>
 
       {alert && (
@@ -251,7 +249,7 @@ const Cart = () => {
             startIcon={<ArrowBack />}
             sx={{ mt: 3, textTransform: 'none', fontWeight: 700, color: '#64748b' }}
           >
-            {t('continue_shopping')}
+            Continue Shopping
           </Button>
         </Grid>
 
@@ -270,19 +268,19 @@ const Cart = () => {
           >
             <Box sx={{ bgcolor: '#1e293b', p: 2.5, color: 'white', display: 'flex', alignItems: 'center' }}>
               <ReceiptLong sx={{ mr: 1.5 }} />
-              <Typography variant="h6" sx={{ fontWeight: 700 }}>{t('order_summary')}</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 700 }}>Order Summary</Typography>
             </Box>
             
             <CardContent sx={{ p: 3 }}>
               <Stack spacing={2}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography variant="body1" color="text.secondary">{t('subtotal')}</Typography>
+                  <Typography variant="body1" color="text.secondary">Subtotal</Typography>
                   <Typography variant="body1" sx={{ fontWeight: 700 }}>रू {subtotal}</Typography>
                 </Box>
                 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography variant="body1" color="text.secondary">{t('shipping')}</Typography>
+                    <Typography variant="body1" color="text.secondary">Shipping</Typography>
                     <LocalShipping sx={{ ml: 1, fontSize: 16, color: '#94a3b8' }} />
                   </Box>
                   <Typography variant="body1" sx={{ fontWeight: 700 }}>रू {shippingCost}</Typography>
@@ -291,7 +289,7 @@ const Cart = () => {
                 <Divider sx={{ my: 1, borderStyle: 'dashed' }} />
                 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Typography variant="h5" sx={{ fontWeight: 800, color: '#1e293b' }}>{t('total')}</Typography>
+                  <Typography variant="h5" sx={{ fontWeight: 800, color: '#1e293b' }}>Total</Typography>
                   <Typography variant="h5" sx={{ fontWeight: 800, color: '#F1585E' }}>रू {total}</Typography>
                 </Box>
                 
@@ -323,7 +321,7 @@ const Cart = () => {
                     mb: 2
                   }}
                 >
-                  {t('proceed_to_checkout')}
+                  Proceed to Checkout
                 </Button>
                 
                 <Stack spacing={1.5}>
